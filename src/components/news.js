@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import Navbar from './components/navbar';
-export default class App extends Component {
+import NewsItem from './newsitem'
+export default class news extends Component {
   render() {
     return (
       <div>
-      <Navbar/>
+        <NewsItem/>
       </div>
     )
   }
