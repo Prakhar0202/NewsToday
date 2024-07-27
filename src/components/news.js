@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 export default class News extends Component {
   static defaultProps = {
     country: 'in',
-    pageSize: 8,
+    pageSize: 5,
     category: 'general',
   }
   static propTypes = {
