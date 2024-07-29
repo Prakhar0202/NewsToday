@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 
 const Navbar = (props) => {
@@ -25,11 +25,6 @@ const Navbar = (props) => {
               <li className="nav-item">
                 <Link className="nav-link " aria-current="page" to="/General">
                   Home
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/About">
-                  About
                 </Link>
               </li>
               <li className="nav-item">

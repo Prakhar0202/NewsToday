@@ -1,5 +1,6 @@
-import React, { Component } from "react";
+import React from "react";
 import hourglass from "./Hourglass.gif";
+
 const Spinner = () => {
   return (
     <div className="text-center my-5">

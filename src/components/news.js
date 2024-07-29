@@ -13,6 +13,7 @@ const News = (props) => {
 
   useEffect(() => {
     fetchNews();
+    // eslint-disable-next-line
   }, []);
 
   const fetchNews = async () => {
@@ -39,7 +40,10 @@ const News = (props) => {
 
   return (
     <>
-      <h1 className="text-center " style={{ marginTop: '5.5rem', marginBottom: '2rem'}}>
+      <h1
+        className="text-center "
+        style={{ marginTop: "5.5rem", marginBottom: "2rem" }}
+      >
         News Today - Top {category} Headlines
       </h1>
       {loading && <Spinner />}
@@ -48,11 +52,6 @@ const News = (props) => {
         next={fetchData}
         hasMore={articles.length < totalResults}
         loader={<Spinner />}
-        endMessage={
-          <p style={{ textAlign: "center" }}>
-            <b>No more articles to load</b>
-          </p>
-        }
       >
         <div className="container">
           <div className="row">
