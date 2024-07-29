@@ -1,48 +1,54 @@
 import React, { Component } from "react";
 import NewsItem from "./newsitem";
 import Spinner from "./spinner";
-import PropTypes from 'prop-types'
-
+import PropTypes from "prop-types";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 export default class News extends Component {
   static defaultProps = {
-    country: 'in',
+    country: "in",
     pageSize: 5,
-    category: 'General',
-  }
+    category: "General",
+  };
+
   static propTypes = {
     country: PropTypes.string,
     pageSize: PropTypes.number,
-    category:PropTypes.string,
-  }
-  constructor() {
-    super();
+    category: PropTypes.string,
+  };
+
+  constructor(props) {
+    super(props);
     this.state = {
       articles: [],
-      loading: true, // Set loading to true initially
+      loading: true,
       page: 1,
       totalResults: 0,
     };
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     this.fetchNews();
   }
 
   fetchNews = async () => {
+    this.props.setProgress(5);
     const { pageSize } = this.props;
     const { page } = this.state;
     const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=4e80d4749f6a4adf9bf5585b464e5a06&page=${page}&pageSize=${pageSize}`;
 
-    this.setState({ loading: true });
-    
-    const response = await fetch(url);
-    const parsedData = await response.json();
-    this.setState({
-      articles: parsedData.articles,
-      loading: false,
-      totalResults: parsedData.totalResults,
-    });
+    try {
+      const response = await fetch(url);
+      const parsedData = await response.json();
+      this.setState((prevState) => ({
+        articles: [...prevState.articles, ...parsedData.articles],
+        loading: false,
+        totalResults: parsedData.totalResults,
+      }));
+    } catch (error) {
+      console.error("Error fetching news:", error);
+    }    this.props.setProgress(100);
+
   };
 
   handlePrevClick = async () => {
@@ -63,52 +69,51 @@ export default class News extends Component {
     );
   };
 
+  fetchData = () => {
+    this.fetchNews();
+  };
+
   render() {
-    const { articles, loading, page, totalResults } = this.state;
+    const { articles, loading, totalResults } = this.state;
     const { pageSize } = this.props;
 
-    if (loading) {
-      return <Spinner />; // Show the spinner while data is being fetched
-    }
-
     return (
-  
-      <div className="container my-4">
-        <h1 className="text-center my-4">News Today - Top Headlines</h1>
-        <div className="row">
-          {articles.map((element, index) => (
-            <div className="col-md-4" key={index}>
-              <NewsItem
-                title={element.title || ""}
-                description={element.description || ""}
-                imageUrl={element.urlToImage}
-                newsUrl={element.url}
-                author={element.author}
-                date={element.publishedAt}
-                sources={element.source.name}
-              />
+      <>
+        <h1 className="text-center my-4">
+          News Today - Top {this.props.category} Headlines
+        </h1>
+        {this.state.loading && <Spinner />}
+        <InfiniteScroll
+          dataLength={articles.length}
+          next={this.fetchData}
+          hasMore={articles.length < totalResults}
+          loader={<Spinner />}
+          endMessage={
+            <p style={{ textAlign: "center" }}>
+              <b>No more articles to load</b>
+            </p>
+          }
+        >
+          <div className="container">
+            <div className="row">
+              {articles.map((element, index) => (
+                <div className="col-md-4" key={index}>
+                  <NewsItem
+                    title={element.title || ""}
+                    description={element.description || ""}
+                    imageUrl={element.urlToImage}
+                    newsUrl={element.url}
+                    author={element.author}
+                    date={element.publishedAt}
+                    sources={element.source.name}
+                  />
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-        <div className="container d-flex justify-content-between">
-          <button
-            type="button"
-            disabled={page <= 1}
-            className="btn btn-info"
-            onClick={this.handlePrevClick}
-          >
-            &larr; Previous
-          </button>
-          <button
-            type="button"
-            disabled={page + 1 > Math.ceil(totalResults / pageSize)}
-            className="btn btn-info"
-            onClick={this.handleNextClick}
-          >
-            Next &rarr;
-          </button>
-        </div>
-      </div>
-    );
+          </div>
+        </InfiniteScroll>
+     
+        </>
+         );
   }
 }
