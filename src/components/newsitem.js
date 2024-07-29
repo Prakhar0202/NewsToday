@@ -12,7 +12,7 @@ export default class NewsItem extends Component {
             position:'absolute',
             right:'0'
           }}>
-              <span class=" badge rounded-pill bg-info" >{sources}</span>
+              <span className=" badge rounded-pill bg-info" >{sources}</span>
           </div>
           <img
             src={

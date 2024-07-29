@@ -35,7 +35,7 @@ export default class News extends Component {
     this.props.setProgress(5);
     const { pageSize } = this.props;
     const { page } = this.state;
-    const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=4e80d4749f6a4adf9bf5585b464e5a06&page=${page}&pageSize=${pageSize}`;
+    const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apikey}&page=${page}&pageSize=${pageSize}`;
 
     try {
       const response = await fetch(url);
@@ -51,23 +51,23 @@ export default class News extends Component {
 
   };
 
-  handlePrevClick = async () => {
-    this.setState(
-      (prevState) => ({ page: prevState.page - 1 }),
-      this.fetchNews
-    );
-  };
+  // handlePrevClick = async () => {
+  //   this.setState(
+  //     (prevState) => ({ page: prevState.page - 1 }),
+  //     this.fetchNews
+  //   );
+  // };
 
-  handleNextClick = async () => {
-    const { pageSize } = this.props;
-    const { page, totalResults } = this.state;
-    if (page + 1 > Math.ceil(totalResults / pageSize)) return;
+  // handleNextClick = async () => {
+  //   const { pageSize } = this.props;
+  //   const { page, totalResults } = this.state;
+  //   if (page + 1 > Math.ceil(totalResults / pageSize)) return;
 
-    this.setState(
-      (prevState) => ({ page: prevState.page + 1 }),
-      this.fetchNews
-    );
-  };
+  //   this.setState(
+  //     (prevState) => ({ page: prevState.page + 1 }),
+  //     this.fetchNews
+  //   );
+  // };
 
   fetchData = () => {
     this.fetchNews();
