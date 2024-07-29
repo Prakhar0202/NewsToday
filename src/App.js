@@ -9,7 +9,7 @@ const App = () => {
   const [progress, setProgress] = useState(0);
 
   return (
-    <Router>
+    <Router basename="{process.env.PUBLIC_URL}" >
       <Navbar />
       <LoadingBar height={3} color="#f11946" progress={progress} />
       <Routes>
