@@ -39,7 +39,7 @@ const News = (props) => {
 
   return (
     <>
-      <h1 className="text-center " style={{ marginTop: '5.5rem' }}>
+      <h1 className="text-center " style={{ marginTop: '5.5rem', marginBottom: '2rem'}}>
         News Today - Top {category} Headlines
       </h1>
       {loading && <Spinner />}
