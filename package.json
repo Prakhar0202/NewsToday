@@ -1,5 +1,5 @@
 {
-  "homepage": "https://prakhar0202.github.io/NewsToday",
+  "homepage": "https://prakhar0202.github.io/newstoday",
   "name": "newstoday",
   "version": "0.1.0",
   "private": true,
@@ -41,5 +41,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object":"^7.0.0-0",
+    "@rollup/plugin-terser": "^0.4.4"
   }
 }
+
